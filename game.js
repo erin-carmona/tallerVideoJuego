@@ -1,11 +1,13 @@
 const canvas = document.querySelector("#game");
 const game = canvas.getContext("2d");
 
-window.addEventListener("load", startGame);
+let canvasSize;
+let elementsSize; 
 
-function startGame() {
-    let canvasSize;
+window.addEventListener("load", setCanvasSize);
+window.addEventListener("resize", setCanvasSize);
 
+function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth * 0.8;
     } else {
@@ -15,21 +17,23 @@ function startGame() {
     canvas.setAttribute("width", canvasSize);
     canvas.setAttribute("height", canvasSize);
 
-    const elementsSize = (canvasSize / 10) - 1; 
+    elementsSize = canvasSize / 10;
+    
+    startGame();
+}
 
-    console.log(canvasSize, elementsSize);
+function startGame() {
+    console.log({canvasSize, elementsSize});
 
     game.font = elementsSize + "px Verdana";
-    game.textAlign = "";
+    game.textAlign = "end";
 
-    for (let i = 0; i < 10; i++) {
-        game.fillText(emojis["X"], elementsSize , elementsSize );
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 10; j++){
+            game.fillText(emojis["X"], elementsSize * j, elementsSize * i);
+
+        }
     }
     
-
-
-    //window.innerHeight
-    //window.innerWidth
-
-    //game.fillText("Platzi", 50, 50);
 }
+
