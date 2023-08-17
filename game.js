@@ -28,12 +28,26 @@ function startGame() {
     game.font = elementsSize + "px Verdana";
     game.textAlign = "end";
 
-    for (let i = 1; i <= 10; i++) {
-        for (let j = 1; j <= 10; j++){
-            game.fillText(emojis["X"], elementsSize * j, elementsSize * i);
+    const map = maps[1];
+    const mapRows = map.trim().split("\n");
+    const mapRowCols = mapRows.map(row => row.trim().split(""))
+    console.log({map, mapRows, mapRowCols});
+
+    mapRowCols.forEach( (row, rowI)=> {
+        row.forEach((col, colI) => {
+            const emoji = emojis[col];
+            const posX = elementsSize * (colI + 1);
+            const posY = elementsSize * (rowI + 1);
+            game.fillText(emoji, posX, posY);
+        });
+});
+
+    /* for (let row = 1; row <= 10; row++) {
+        for (let col = 1; col <= 10; col++){
+            game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementsSize * col, elementsSize * row);
 
         }
-    }
+    } */
     
 }
 
