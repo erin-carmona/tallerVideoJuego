@@ -6,6 +6,8 @@ const btnRight = document.querySelector("#right");
 const btnDown = document.querySelector("#down");
 const spanLives = document.querySelector("#lives");
 const spanTime = document.querySelector("#time");
+const spanRecord = document.querySelector("#record");
+const pResult = document.querySelector("#result");
 
 let canvasSize;
 let elementsSize; 
@@ -31,9 +33,9 @@ window.addEventListener("resize", setCanvasSize);
 
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.8;
+        canvasSize = window.innerWidth * 0.7;
     } else {
-        canvasSize = window.innerHeight * 0.8;
+        canvasSize = window.innerHeight * 0.7;
     }
 
     canvas.setAttribute("width", canvasSize);
@@ -59,6 +61,7 @@ function startGame() {
         if (!timeStart) {
             timeStart = Date.now();
             timeInterval = setInterval(showTime, 100);
+            showRecord();
         }
 
     const mapRows = map.trim().split("\n");
@@ -143,6 +146,24 @@ function levelFail() {
 function gameWin() {
     console.log("Eres el campeon");
     clearInterval(timeInterval);
+
+    const recordTime = localStorage.getItem("record_time");
+        const playerTime = Date.now() - timeStart;
+
+    if (recordTime) {
+        if (recordTime > playerTime) {
+            localStorage.setItem("record_time", playerTime);
+            pResult.innerHTML = "Eres el mas rapido del oeste";
+        } else {
+            pResult.innerHTML = "Te falto manito";
+        }
+    } else {
+        localStorage.setItem("record_time", playerTime)
+        pResult.innerHTML = "Tu primer Record";
+
+    }
+
+    console.log({recordTime, playerTime});
 }
 
 function showLives() {
@@ -155,6 +176,9 @@ function showLives() {
 
 function showTime() {
     spanTime.innerHTML = Date.now() - timeStart;
+}
+function showRecord() {
+    spanRecord.innerHTML = localStorage.getItem("record_time");
 }
 
 window.addEventListener("keydown", moveByKeys);
