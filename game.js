@@ -31,18 +31,28 @@ let enemyPositions = [];
 window.addEventListener("load", setCanvasSize);
 window.addEventListener("resize", setCanvasSize);
 
+/* function fixNumber() {
+    playerPosition.x = Number(playerPosition.x.toFixed(0));
+    playerPosition.y = Number(playerPosition.y.toFixed(0));
+}
+ */
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.7;
-    } else {
+        canvasSize = window.innerWidth *0.7;}
+     else {
         canvasSize = window.innerHeight * 0.7;
     }
 
+    
+    
     canvas.setAttribute("width", canvasSize);
     canvas.setAttribute("height", canvasSize);
 
     elementsSize = canvasSize / 10;
     
+
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
     startGame();
 }
 
@@ -72,11 +82,15 @@ function startGame() {
     enemyPositions = [];
     game.clearRect(0,0, canvasSize, canvasSize);
 
-    mapRowCols.forEach( (row, rowI)=> {
+    mapRowCols.forEach((row, rowI)=> {
         row.forEach((col, colI) => {
-            const emoji = emojis[col];
-            const posX = elementsSize * (colI + 1);
-            const posY = elementsSize * (rowI + 1);
+            let emoji = emojis[col];
+            let posX = elementsSize * (colI + 1);
+            let posY = elementsSize * (rowI + 1);
+            /* posX = posX.toFixed(1);
+            posX = parseFloat(posX);
+            posY = posY.toFixed(1);
+            posY = parseFloat(posY); */
 
             if (col == "O") {
                 if (!playerPosition.x && !playerPosition.y) {
@@ -153,7 +167,7 @@ function gameWin() {
     if (recordTime) {
         if (recordTime > playerTime) {
             localStorage.setItem("record_time", playerTime);
-            pResult.innerHTML = "Eres el mas rapido del oeste";
+            pResult.innerHTML = "Eres el más rapido del oeste";
         } else {
             pResult.innerHTML = "Te falto manito";
         }
